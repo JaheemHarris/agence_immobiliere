@@ -31,6 +31,8 @@ class PropertyController extends AbstractController
             $surface = $request->request->get('surface');
             $price = $request->request->get('price');
             $rooms = $request->request->get('rooms');
+
+            $entityManager = $doctrine->getManager();
             
             $property = new Property();
             $property->setTitle($title);
@@ -40,10 +42,10 @@ class PropertyController extends AbstractController
             $property->setPrice($price);
             $property->setRooms($rooms);
 
-            $doctrine->persist($property);
-            $doctrine->flush();
+            $entityManager->persist($property);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('/property/add?success');
+            return $this->redirectToRoute('app_property_add');
         }
         return $this->render('property/property-new.html.twig');
     }
