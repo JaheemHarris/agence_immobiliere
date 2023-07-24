@@ -21,6 +21,43 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    #[Route('/property/list', name: 'app_property_list')]
+    public function list(ManagerRegistry $doctrine): Response
+    {
+        $propertyRepository = $doctrine->getRepository(Property::class);
+        $propertyList = $propertyRepository->findAll();
+        return $this->render('property/property-list.html.twig', [
+            'propertyList' => $propertyList,
+        ]);
+    }
+
+    #[Route('/property/delete/{id}', name: 'app_property_delete')]
+    public function delete(int $id, ManagerRegistry $doctrine): Response
+    {
+        $entityManager = $doctrine->getManager();
+        $property = $entityManager->getRepository(Property::class)->find($id);
+
+        if (!$property) {
+            throw $this->createNotFoundException('Property not found.');
+        }
+
+        $entityManager->remove($property);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_property_list');
+    }
+
+    #[Route('/property/edit/{id}', name: 'app_property_edit')]
+    public function edit(int $id, ManagerRegistry $doctrine): Response
+    {
+        // $property = new Property();
+        // $property->setId($id);
+        // $entityManager = $doctrine->getManager();
+        // $entityManager->remove($property);
+        // $entityManager->flush();
+        // return $this->redirectToRoute('app_property_list');
+    }
+
     #[Route('/property/add', name: 'app_property_add', methods: ['GET', 'POST'])]
     public function new(Request $request, ManagerRegistry $doctrine): Response
     {

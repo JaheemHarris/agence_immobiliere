@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Property List{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Property List</h1>
+
+    <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Location</th>
+            <th scope="col">Surface</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rooms</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for property in propertyList %}
+            <tr>
+                <th scope="row">{{ property.id }}</th>
+                <td>{{ property.title }}</td>
+                <td>{{ property.description }}</td>
+                <td>{{ property.location }}</td>
+                <td>{{ property.surface }}</td>
+                <td>{{ property.price }}</td>
+                <td>{{ property.rooms }}</td>
+                <td><a class="btn btn-success" href="{{ path('app_property_edit', {'id': property.id}) }}">Edit</a></td>
+                <td><a class="btn btn-warning" href="{{ path('app_property_delete', {'id': property.id}) }}">Delete</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
